@@ -7,7 +7,6 @@ const sequelize = require('./config/database');
 const usuarioRoutes = require('./routes/usuarioRoutes');
 const authRoutes = require('./routes/authRoutes')
 
-
 //prueba db
 const testRoutes = require('./testRoutes');
 app.use('/api', testRoutes);

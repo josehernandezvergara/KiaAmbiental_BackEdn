@@ -18,8 +18,7 @@ const Usuario = sequelize.define('users', {
   }
 }, {
   tableName: 'users',
-  timestamps: false, // ⛔ evita usar createdAt y updatedAt
-
+  timestamps: false, 
   hooks: {
     beforeCreate: async (usuario) => {
       if (usuario.contraseña) {

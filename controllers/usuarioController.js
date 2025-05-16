@@ -18,9 +18,13 @@ exports.obtenerUsuario = async (req, res) => {
 // Actualizar
 exports.actualizarUsuario = async (req, res) => {
   const usuario = await Usuario.findByPk(req.params.id);
+  //si la id no existe o machea
   if (!usuario) return res.status(404).send('Usuario no encontrado');
-
+  //si viene vacio no actualiza
+  //oye, viene algo? 
   if (req.body.type_user){
+
+    //si viene, actualiza
     usuario.type_user = req.body.type_user;
   }
   
