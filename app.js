@@ -8,6 +8,10 @@ const usuarioRoutes = require('./routes/usuarioRoutes');
 const authRoutes = require('./routes/authRoutes')
 
 
+//prueba db
+const testRoutes = require('./testRoutes');
+app.use('/api', testRoutes);
+
 app.use(cors())
 // Middleware para JSON
 app.use(express.json()); //para req.body
