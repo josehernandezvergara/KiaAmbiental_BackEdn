@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const Usuario = require('../models/Usuario');
+console.log('authController cargado', bcrypt);
 
 const JWT_SECRET = process.env.JWT_SECRET || 'secreto123';
 
