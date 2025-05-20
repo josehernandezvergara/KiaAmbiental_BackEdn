@@ -5,7 +5,11 @@ const cors = require('cors')
 const port = process.env.PORT || 3001;
 const sequelize = require('./config/database');
 const usuarioRoutes = require('./routes/usuarioRoutes');
-const authRoutes = require('./routes/authRoutes')
+const authRoutes = require('./routes/authRoutes');
+const dashboardRoutes = require('./routes/dashboardRoutes');
+const adminDashboardRoutes = require('./routes/adminDashboardRoutes');
+
+
 
 //prueba db
 const testRoutes = require('./testRoutes');
@@ -18,6 +22,10 @@ app.use(express.json()); //para req.body
 // Rutas
 app.use('/api', usuarioRoutes);
 app.use('/api', authRoutes);
+app.use('/api', dashboardRoutes);
+app.use('/api/admin/dashboard', adminDashboardRoutes);
+
+
 // Conexión y servidor
 
 sequelize

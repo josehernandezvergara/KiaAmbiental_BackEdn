@@ -14,7 +14,7 @@ exports.login = async (req, res) => {
   const esValido = await bcrypt.compare(password, usuario.password);
   if (!esValido) return res.status(401).send('datos incorrectos c');
 //firmar token
-  const token = jwt.sign({ id: usuario.id, username: usuario.username }, JWT_SECRET, {
+  const token = jwt.sign({ id: usuario.id, username: usuario.username, type_user: usuario.type_user }, JWT_SECRET, {
     expiresIn: '1h'
   });
 
@@ -48,13 +48,14 @@ exports.crearUsuario = async (req, res) => {
         password: hashedPassword
       });
 
-        const token = jwt.sign({ id: nuevoUsuario.id, username: nuevoUsuario.username,name: nuevoUsuario.type_user }, 
+        const token = jwt.sign({ id: nuevoUsuario.id, username: nuevoUsuario.username, type_user: nuevoUsuario.type_user }, 
           JWT_SECRET, { expiresIn: '1h' });
   
       res.status(201).json({ mensaje: 'Usuario creado correctamente',
           usuario: { id: nuevoUsuario.id, username: nuevoUsuario.username,
           type_user: nuevoUsuario.type_user },
-          token: token });
+          //token: token 
+        });
     } catch (error) {
       res.status(500).json({ error: 'Error al crear el usuario' + error });
     }
