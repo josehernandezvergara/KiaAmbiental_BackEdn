@@ -23,7 +23,7 @@ app.use(express.json()); //para req.body
 app.use('/api', usuarioRoutes);
 app.use('/api', authRoutes);
 app.use('/api', dashboardRoutes);
-app.use('/api/admin/dashboard', adminDashboardRoutes);
+app.use('/api/admin', adminDashboardRoutes);
 
 
 // Conexión y servidor

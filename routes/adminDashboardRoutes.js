@@ -5,6 +5,6 @@ const esAdmin = require('../middleware/esAdmin');
 const { obtenerResumenCompleto } = require('../controllers/dashboardController');
 
 //admins
-// router.get('/admin/resumen-completo', verificarToken, esAdmin, obtenerResumenCompleto);
+router.get('/resumen-completo', verificarToken, esAdmin, obtenerResumenCompleto);
 
 module.exports = router;
