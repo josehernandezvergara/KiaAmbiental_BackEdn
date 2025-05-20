@@ -39,35 +39,35 @@ exports.obtenerResumenMensual = async (req, res) => {
 
 exports.obtenerResumenCompleto = async (req, res) => {
   try {
-    const ahora = new Date();
-
+    const ahora = new Date(); // fecha actual
+    // demas fechas - inicio del mesAct, mesAnt y el fin del mesAnt
     const inicioMesActual = new Date(ahora.getFullYear(), ahora.getMonth(), 1);
     const inicioMesAnterior = new Date(ahora.getFullYear(), ahora.getMonth() - 1, 1);
     const finMesAnterior = new Date(ahora.getFullYear(), ahora.getMonth(), 0);
 
-    // Buscar logs del mes actual
+    // buscar logs del mes actual
     const logsMesActual = await ResidueLog.findAll({
       where: {
-        collection_date: { [Op.gte]: inicioMesActual }
+        collection_date: { [Op.gte]: inicioMesActual } // si 'inicioMesActual' = 19/05/2025 la condicion es >= 2025/05/0q
       },
       attributes: ['area', 'residue_type', 'weight']
     });
 
-    // Buscar logs del mes anterior
+    // buscar logs del mes anterior
     const logsMesAnterior = await ResidueLog.findAll({
       where: {
         collection_date: {
-          [Op.gte]: inicioMesAnterior,
-          [Op.lte]: finMesAnterior
+          [Op.gte]: inicioMesAnterior, //>=2025/04/01
+          [Op.lte]: finMesAnterior //<= 2025/04/30
         }
       },
       attributes: ['weight']
     });
 
-    // Procesar mes actual
-    const resumenPorDepartamento = {};
-    const resumenPorResiduo = {};
-    let totalMesActual = 0;
+    // procesar mes actual
+    const resumenPorDepartamento = {}; //area: x, tw: 100kg
+    const resumenPorResiduo = {}; //vidrio: 80, plastico: 50
+    let totalMesActual = 0; //total
 
     logsMesActual.forEach(log => {
       const { area, residue_type, weight } = log;
@@ -89,17 +89,17 @@ exports.obtenerResumenCompleto = async (req, res) => {
 
     // Procesar mes anterior
     const totalMesAnterior = logsMesAnterior.reduce((acc, log) => {
-      return acc + parseFloat(log.weight || 0);
+      return acc + parseFloat(log.weight || 0); //sum todos los psos
     }, 0);
 
-    // Calcular variación
+    // comparar
     let comparacionMensual = null;
     if (totalMesAnterior > 0) {
       const variacion = ((totalMesActual - totalMesAnterior) / totalMesAnterior) * 100;
       comparacionMensual = {
         mesActual: totalMesActual.toFixed(2),
         mesAnterior: totalMesAnterior.toFixed(2),
-        variacion: `${variacion >= 0 ? '+' : ''}${variacion.toFixed(2)}%`
+        variacion: `${variacion >= 0 ? '+' : ''}${variacion.toFixed(2)}%`//calculo automatico de las metricas
       };
     }
 
