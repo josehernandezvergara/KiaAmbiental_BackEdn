@@ -5,13 +5,25 @@ const esAdmin = require('../middleware/esAdmin');
 const verificarToken = require('../middleware/verificarToken');
 
 //para obtener todos los usuarios
-router.get('/usuarios', usuarioController.obtenerUsuarios);
+router.get('/usuarios',
+  verificarToken,
+  esAdmin,
+  usuarioController.obtenerUsuarios);
 //usuario por id (uno)
-router.get('/usuarios/:id', usuarioController.obtenerUsuario);
+router.get('/usuarios/:id',
+  verificarToken,
+  esAdmin,
+  usuarioController.obtenerUsuario);
 //actualizar un usuario
-router.put('/usuarios/:id', usuarioController.actualizarUsuario);
+router.put('/usuarios/:id',
+  verificarToken,
+  esAdmin,
+  usuarioController.actualizarUsuario);
 //eliminar un usuario
-router.delete('/usuarios/:id', usuarioController.eliminarUsuario);
+router.delete('/usuarios/:id',
+  verificarToken,
+  esAdmin,
+  usuarioController.eliminarUsuario);
 //promover
 router.post(
   '/usuarios/promote/:id',
