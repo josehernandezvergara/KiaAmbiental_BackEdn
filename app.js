@@ -8,6 +8,7 @@ const usuarioRoutes = require('./routes/usuarioRoutes');
 const authRoutes = require('./routes/authRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
 const adminDashboardRoutes = require('./routes/adminDashboardRoutes');
+const residueRoutes = require('./routes/residueRoutes');
 
 
 
@@ -24,6 +25,8 @@ app.use('/api', usuarioRoutes);
 app.use('/api', authRoutes);
 app.use('/api', dashboardRoutes);
 app.use('/api/admin', adminDashboardRoutes);
+app.use('/api', residueRoutes);
+
 
 
 // Conexión y servidor
