@@ -24,7 +24,8 @@ exports.login = async (req, res) => {
 
 
 exports.crearUsuario = async (req, res) => {
-    const { type_user, username, password } = req.body;
+    const { username, password } = req.body;
+    const type_user = 'user';
     console.log("post check", req.body)
     try {
       // Validar datos
@@ -52,8 +53,7 @@ exports.crearUsuario = async (req, res) => {
           JWT_SECRET, { expiresIn: '1h' });
   
       res.status(201).json({ mensaje: 'Usuario creado correctamente',
-          usuario: { id: nuevoUsuario.id, username: nuevoUsuario.username,
-          type_user: nuevoUsuario.type_user },
+          usuario: { id: nuevoUsuario.id, username: nuevoUsuario.username},
           //token: token 
         });
     } catch (error) {
