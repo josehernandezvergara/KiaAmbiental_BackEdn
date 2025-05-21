@@ -1,0 +1,10 @@
+POST http://localhost:3001/api/excel-upload
+Content-Type: application/json
+Authorization: Bearer <eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwidXNlcm5hbWUiOiJqdWFuIFDDqXJleiIsInR5cGVfdXNlciI6ImFkbWluIiwiaWF0IjoxNzQ3Nzg2ODk3LCJleHAiOjE3NDc3OTA0OTd9.TvVmw7CCuDsQU6B5UpcE0TBb36Q9Zx64-8NeSvjFMI4>
+
+{
+  "data": [
+    ["ignored", "2025-05-20", "Orgánico", "Comida", "Transp X", "Sitio Y", "Cocina", 120.5, 8, "kg", "REM001", "MAN001"],
+    ["ignored", "2025-05-21", "Inorgánico", "Plástico", "Transp Z", "Sitio W", "Oficina", 45.2, 3, "kg", "REM002", "MAN002"]
+  ]
+}

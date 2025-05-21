@@ -9,7 +9,7 @@ const authRoutes = require('./routes/authRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
 const adminDashboardRoutes = require('./routes/adminDashboardRoutes');
 const residueRoutes = require('./routes/residueRoutes');
-
+const excelRoutes = require('./routes/excelRoutes');
 
 
 //prueba db
@@ -26,7 +26,7 @@ app.use('/api', authRoutes);
 app.use('/api', dashboardRoutes);
 app.use('/api/admin', adminDashboardRoutes);
 app.use('/api', residueRoutes);
-
+app.use('/api', excelRoutes);
 
 
 // Conexión y servidor
