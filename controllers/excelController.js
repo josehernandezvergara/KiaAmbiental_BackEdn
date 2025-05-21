@@ -13,17 +13,17 @@ exports.procesarExcel = async (req, res) => {
     const registros = rows.map((row) => ({
         //uhm, puente para comvertir las filas del excel en arrays 
       // depende de los indices de las filas del excel corregir en caso de que en el excel venga dif
-      collection_date: row[1],     // segunda fila
-      waste_type:     row[2],
-      residue_type:   row[3],
-      transporter_name: row[4],
-      disposal_site:  row[5],
-      area:           row[6],
-      weight:         row[7],
-      quantity:       row[8],
-      unit:           row[9],
-      remission_number: row[10],
-      manifest_number: row[11],
+      collection_date:  row[1] || null,     // segunda fila
+      waste_type:       row[2] || null,
+      residue_type:     row[3] || null,
+      transporter_name: row[4] || null,
+      disposal_site:    row[5] || null,
+      area:             row[6] || null,
+      weight:           row[7] !== "" ? parseFloat(row[7]) : null,
+      quantity:         row[8] !== "" ? parseFloat(row[8]) : null,
+      unit:             row[9] || null,
+      remission_number: row[10] || null,
+      manifest_number:  row[11] || null,
     }));
 
     // insert cn Sequelize
