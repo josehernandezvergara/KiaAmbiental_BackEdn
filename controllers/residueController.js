@@ -62,3 +62,16 @@ exports.obtenerResiduoMes = async (req, res) => {
     res.status(500).json({ error: 'Error al obtener residuos del mes' });
   }
 };
+//obtener manifiesto sin filtro
+// Obtener todos
+exports.obtenerLog = async (req, res) => {
+  const log = await ResidueLog.findAll();
+  res.json(log);
+};
+
+// Obtener uno
+exports.obtenerLogId = async (req, res) => {
+  const log = await ResidueLog.findByPk(req.params.id);
+  if (!log) return res.status(404).send('log no encontrado');
+  res.json(log);
+};
