@@ -24,12 +24,12 @@ exports.login = async (req, res) => {
 
 
 exports.crearUsuario = async (req, res) => {
-    const { username, password } = req.body;
+    const { username, password, id_employees } = req.body;
     const type_user = 'user';
     console.log("post check", req.body)
     try {
       // Validar datos
-      if (!type_user || !username || !password) {
+      if (!type_user || !username || !password || !id_employees) {
         return res.status(400).json({ error: ' hace falta info' });
       }
       // Verificar si ya existe
@@ -46,14 +46,15 @@ exports.crearUsuario = async (req, res) => {
       const nuevoUsuario = await Usuario.create({
         type_user,
         username,
-        password: hashedPassword
+        password: hashedPassword,
+        id_employees
       });
 
-        const token = jwt.sign({ id: nuevoUsuario.id, username: nuevoUsuario.username, type_user: nuevoUsuario.type_user }, 
+        const token = jwt.sign({ id: nuevoUsuario.id, id_employees:nuevoUsuario.id_employees, username: nuevoUsuario.username, type_user: nuevoUsuario.type_user }, 
           JWT_SECRET, { expiresIn: '1h' });
   
       res.status(201).json({ mensaje: 'Usuario creado correctamente',
-          usuario: { id: nuevoUsuario.id, username: nuevoUsuario.username},
+          usuario: { id: nuevoUsuario.id, username: nuevoUsuario.username, id_employees: nuevoUsuario.id_employees, type_user: nuevoUsuario.type_user },
           //token: token 
         });
     } catch (error) {

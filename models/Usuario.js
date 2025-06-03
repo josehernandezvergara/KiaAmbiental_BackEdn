@@ -12,6 +12,10 @@ const Usuario = sequelize.define('users', {
     type: DataTypes.STRING,
     allowNull: false
   },
+  id_employees: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
   type_user: {
     type: DataTypes.STRING,
     allowNull: false
@@ -21,15 +25,15 @@ const Usuario = sequelize.define('users', {
   timestamps: false, 
   hooks: {
     beforeCreate: async (usuario) => {
-      if (usuario.contraseña) {
-        const hash = await bcrypt.hash(usuario.contraseña, 10);
-        usuario.contraseña = hash;
+      if (usuario.password) {
+        const hash = await bcrypt.hash(usuario.password, 10);
+        usuario.password = hash;
       }
     },
     beforeUpdate: async (usuario) => {
       if (usuario.changed('password')) {
-        const hash = await bcrypt.hash(usuario.contraseña, 10);
-        usuario.contraseña = hash;
+        const hash = await bcrypt.hash(usuario.password, 10);
+        usuario.password = hash;
       }
     }
   }
@@ -37,7 +41,7 @@ const Usuario = sequelize.define('users', {
 
 // Método de instancia para comparar contraseña
 Usuario.prototype.validarContraseña = function (textoPlano) {
-  return bcrypt.compare(textoPlano, this.contraseña);
+  return bcrypt.compare(textoPlano, this.password);
 };
 
 module.exports = Usuario;
