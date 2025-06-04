@@ -29,7 +29,7 @@ exports.crearUsuario = async (req, res) => {
     console.log("post check", req.body)
     try {
       // Validar datos
-      if (!type_user || !username || !password || !id_employees) {
+      if (!username || !password || !id_employees) {
         return res.status(400).json({ error: ' hace falta info' });
       }
       // Verificar si ya existe
@@ -50,7 +50,7 @@ exports.crearUsuario = async (req, res) => {
         id_employees
       });
 
-        const token = jwt.sign({ id: nuevoUsuario.id, id_employees:nuevoUsuario.id_employees, username: nuevoUsuario.username, type_user: nuevoUsuario.type_user }, 
+        const token = jwt.sign({ id: nuevoUsuario.id, username: nuevoUsuario.username, type_user: nuevoUsuario.type_user }, 
           JWT_SECRET, { expiresIn: '1h' });
   
       res.status(201).json({ mensaje: 'Usuario creado correctamente',

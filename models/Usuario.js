@@ -25,15 +25,15 @@ const Usuario = sequelize.define('users', {
   timestamps: false, 
   hooks: {
     beforeCreate: async (usuario) => {
-      if (usuario.password) {
-        const hash = await bcrypt.hash(usuario.password, 10);
-        usuario.password = hash;
+      if (usuario.contraseña) {
+        const hash = await bcrypt.hash(usuario.contraseña, 10);
+        usuario.contraseña = hash;
       }
     },
     beforeUpdate: async (usuario) => {
-      if (usuario.changed('password')) {
-        const hash = await bcrypt.hash(usuario.password, 10);
-        usuario.password = hash;
+      if (usuario.changed('contraseña')) {
+        const hash = await bcrypt.hash(usuario.contraseña, 10);
+        usuario.contraseña = hash;
       }
     }
   }
@@ -41,7 +41,7 @@ const Usuario = sequelize.define('users', {
 
 // Método de instancia para comparar contraseña
 Usuario.prototype.validarContraseña = function (textoPlano) {
-  return bcrypt.compare(textoPlano, this.password);
+  return bcrypt.compare(textoPlano, this.contraseña);
 };
 
 module.exports = Usuario;
