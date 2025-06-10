@@ -21,6 +21,7 @@ exports.obtenerResumenMensual = async (req, res) => {
         'id',
         'collection_date',
         'waste_type',
+        'residue_type',
         'area',
         'weight',
         'quantity',
