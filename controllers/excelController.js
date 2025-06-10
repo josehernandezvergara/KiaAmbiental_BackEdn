@@ -1,61 +1,32 @@
 const ResidueLog = require('../models/ResidueLog');
 
-// Supón que ya tienes implementada la función parseExcelDate(value)
-function parseExcelDate(value) {
-  if (!value) return null;
-  if (typeof value === "number") {
-    const date = new Date(Math.round((value - 25569) * 86400 * 1000));
-    const day = String(date.getUTCDate()).padStart(2, '0');
-    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
-    const year = date.getUTCFullYear();
-    return `${year}-${month}-${day}`;
-  }
-  // Aquí puedes implementar otro parseo si viene como string
-  return value;
-}
-
 exports.procesarExcel = async (req, res) => {
   try {
-    // Aquí 'rows' debe venir de req.body.data
-    const rows = req.body.data;
+    const rows = req.body.data; // -> array de arrays {xls}
+    
     if (!Array.isArray(rows) || rows.length === 0) {
       return res.status(400).json({ error: 'No se recibieron datos' });
     }
+    console.log("rows:",rows);
 
-    // Filtra las filas que tengan valor en collection_date (posición 1)
-    const validRows = rows.filter(row => row[1]);
+    // Formato tabla
+    const registros = rows.map((row) => ({
+        //uhm, puente para comvertir las filas del excel en arrays 
+      // depende de los indices de las filas del excel corregir en caso de que en el excel venga dif
+      collection_date:  row[1] || null,     // segunda fila
+      waste_type:       row[2] || null,
+      residue_type:     row[3] || null,
+      transporter_name: row[4] || null,
+      disposal_site:    row[5] || null,
+      area:             row[6] || null,
+      weight:           row[7] !== "" ? parseFloat(row[7]) : null,
+      quantity:         row[8] !== "" ? parseFloat(row[8]) : null,
+      unit:             row[9] || null,
+      remission_number: row[10] || null,
+      manifest_number:  row[11] || null,
+    }));
 
-    if (validRows.length === 0) {
-      return res.status(400).json({ error: 'No se encontraron filas con fecha de colección válida' });
-    }
-    
-    // Mapea las filas válidas a objetos para la DB
-    const registros = validRows.map((row) => {
-      // Parsea y valida valores numéricos
-      let quantity = parseFloat(row[6]);
-      if (isNaN(quantity)) quantity = null;
-      
-      return {
-        collection_date: parseExcelDate(row[1]) || null,
-        residue_type: null,
-        transporter_name: row[3] || null,
-        disposal_site : null,
-        waste_type       : row[2] || null,
-        area             : null,
-        weight           : null,
-        quantity         : quantity,
-        unit             : row[7] || null,
-        remission_hmmx   : row[8] || null,
-        remision_kia     : row[9] || null,
-        purchase_name    : row[4] || null,
-        item             : row[5] || null
-      };
-    });
-    
-    // Para depurar, imprime los registros
-    console.log("Registros a insertar:", JSON.stringify(registros, null, 2));
-    
-    // Insertar en la base de datos usando bulkCreate
+    // insert cn Sequelize
     const creados = await ResidueLog.bulkCreate(registros);
 
     res.status(201).json({

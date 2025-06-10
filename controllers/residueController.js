@@ -6,16 +6,15 @@ exports.crearResiduo = async (req, res) => {
     const {
       collection_date,
       waste_type,
+      residue_type,
       transporter_name,
       disposal_site,
       area,
       weight,
       quantity,
       unit,
-      remission_hmmx,
-      remission_kia,
-      purchase_name,
-      item
+      remission_number,
+      manifest_number
     } = req.body;
 
     // val básica
@@ -25,17 +24,16 @@ exports.crearResiduo = async (req, res) => {
 
     const nuevo = await ResidueLog.create({
       collection_date,
+      waste_type,
+      residue_type,
       transporter_name,
       disposal_site,
-      waste_type,
       area,
       weight,
       quantity,
       unit,
-      remission_hmmx,
-      remission_kia,
-      purchase_name,
-      item
+      remission_number,
+      manifest_number
     });
 
     res.status(201).json({ mensaje: 'Residuo creado', data: nuevo });
