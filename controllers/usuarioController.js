@@ -8,9 +8,16 @@ exports.obtenerUsuarios = async (req, res) => {
 
 // Obtener uno
 exports.obtenerUsuario = async (req, res) => {
-  const usuario = await Usuario.findByPk(req.params.id);
-  if (!usuario) return res.status(404).send('Usuario no encontrado');
-  res.json(usuario);
+  try {
+    const usuario = await Usuario.findByPk(req.usuario.id); // Usa el ID del usuario autenticado
+    if (!usuario) {
+      return res.status(404).json({ error: 'Usuario no encontrado' });
+    }
+    res.json(usuario);
+  } catch (error) {
+    console.error('Error al obtener el usuario:', error);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
 };
 
 
