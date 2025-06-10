@@ -12,7 +12,6 @@ router.get('/usuarios',
 //usuario por id (uno)
 router.get('/usuarios/:id',
   verificarToken,
-  esAdmin,
   usuarioController.obtenerUsuario);
 //actualizar un usuario
 router.put('/usuarios/:id',
